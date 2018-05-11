@@ -1,0 +1,14 @@
+CREATE OR REPLACE TYPE TO_MONTH_INFO AUTHID DEFINER AS OBJECT
+(
+  firstDay DATE,
+  lastDay  DATE,
+  qtdDays  NUMBER(2),
+/**
+    * Creates an object of TO_MONTH INFO with some informations 
+    * about dereference month given in parameter.
+    *
+    * @param pMonth The month to be detailed
+    */
+  CONSTRUCTOR FUNCTION TO_MONTH_INFO(pMonth IN DATE) RETURN SELF AS RESULT
+)
+/
