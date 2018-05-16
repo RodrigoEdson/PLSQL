@@ -1,0 +1,18 @@
+DECLARE
+  vStatus PLS_INTEGER;
+  CONST_PIPE_NAME CONSTANT VARCHAR2(9) := 'TEST_PIPE';
+  CONST_TIMEOUT   CONSTANT PLS_INTEGER := 5;
+BEGIN
+  /*
+  Add messages
+  */
+  DBMS_PIPE.PACK_MESSAGE('CLIENT 01 - MSG 001');
+  DBMS_PIPE.PACK_MESSAGE('CLIENT 01 - MSG 002');
+  /*
+  Send messages
+  */
+  vStatus := DBMS_PIPE.SEND_MESSAGE(CONST_PIPE_NAME, CONST_TIMEOUT);
+  IF vStatus <> 0 THEN
+    dbms_output.put_line('ERROR: Pipe failed');
+  END IF;
+END;
