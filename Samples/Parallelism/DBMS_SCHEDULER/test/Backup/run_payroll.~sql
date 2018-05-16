@@ -2,7 +2,7 @@ DECLARE
   vStartHour DATE;
 BEGIN
   /*
-  output for show the processing time
+  output to show the processing time
   */
   vStartHour := SYSDATE;
   dbms_output.put_line('Start: ' ||
@@ -11,7 +11,7 @@ BEGIN
   pk_payroll_processing.pr_calculate_month_payroll(ppayrollmonth => to_date('01/01/2005',
                                                                             'dd/mm/yyyy'));
   /*
-  output for show the processing time
+  output to show the processing time
   */
   dbms_output.put_line('End: ' ||
                        TO_CHAR(SYSDATE, 'dd/mm/yyyy hh24:mi:ss') || ' - ' ||

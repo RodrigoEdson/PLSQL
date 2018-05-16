@@ -137,7 +137,6 @@ CREATE OR REPLACE PACKAGE BODY pk_Payroll_Processing AS
     process and return payroll
     */
     vListPayroll := f_ProcessPayroll(vEmployeesList, vMonthInfo);
-    dbms_output.put_line(vListPayroll.count);
     /*
     Store payroll on database
     */
