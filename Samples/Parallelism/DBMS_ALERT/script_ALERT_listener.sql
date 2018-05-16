@@ -3,9 +3,6 @@ DECLARE
   vMsgText VARCHAR2(100);
   CONST_ALERT_NAME CONSTANT VARCHAR2(10) := 'TEST_ALERT';
   CONST_TIMEOUT    CONSTANT PLS_INTEGER := 5;
-  --
-  noMoreMessages EXCEPTION;
-  PRAGMA EXCEPTION_INIT(noMoreMessages, -6556);
 BEGIN
   /*
   Register interest in an alert.
