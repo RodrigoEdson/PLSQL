@@ -1,0 +1,9 @@
+  CREATE TABLE ETL_EMPLOYEES 
+   (	PROCESS_DATE         DATE, 
+      EMPLOYEE_ID          NUMBER(6,0), 
+      FULL_EMPLOYEE_NAME   VARCHAR2(45 BYTE), 
+      TOTAL_WORK_DAYS      INTERVAL DAY (6) TO SECOND (6), 
+      JOB_TITLE            VARCHAR2(35 BYTE), 
+      COUNTRY_NAME         VARCHAR2(40 BYTE), 
+      SALARY               NUMBER(8,2)
+   );
