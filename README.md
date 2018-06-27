@@ -1,2 +1,2 @@
 # PLSQL
-Contains some samples of PL/SQL I had wrote for test or to study.
+Contains some examples of PL/SQL that I wrote for testing or studying.
