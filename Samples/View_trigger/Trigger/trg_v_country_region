@@ -1,0 +1,33 @@
+CREATE     OR REPLACE TRIGGER trg_v_country_region INSTEAD OF
+   DELETE     OR INSERT     OR UPDATE ON v_country_region
+DECLARE
+   v_region_id   regions.region_id%TYPE;
+BEGIN
+   CASE
+      WHEN inserting THEN
+         v_country_region_tapi.ins(
+            p_country_id                =>:new.country_id,
+            p_countries_region_number   =>:new.countries_region_number,
+            p_region_name               =>:new.region_name,
+            p_country_name              =>:new.country_name
+         );
+      WHEN updating THEN
+
+         v_country_region_tapi.upd(
+            p_country_id                =>:new.country_id,
+            p_countries_region_number   =>:new.countries_region_number,
+            p_region_name               =>:new.region_name,
+            p_country_name              =>:new.country_name
+         );
+
+         IF :new.region_name <>:old.region_name THEN
+            v_region_id := regions_tapi.get_region_id(:old.region_name);
+            IF regions_tapi.get_countries_number(v_region_id) = 0 THEN
+               regions_tapi.del(v_region_id);
+            END IF;
+         END IF;
+
+      WHEN deleting THEN
+         v_country_region_tapi.del(p_country_id   =>:old.country_id);
+   END CASE;
+END;
