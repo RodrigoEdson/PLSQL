@@ -1,53 +1,27 @@
-CREATE     OR REPLACE PACKAGE pk_crypto AUTHID definer AS
-
-   SUBTYPE varchar2_hash IS VARCHAR2(1024);
-   SUBTYPE file_type IS PLS_INTEGER RANGE 1..2;
-
-   TYPE file_attribute IS RECORD ( file_exists BOOLEAN,
-   file_length NUMBER,
-   block_size BINARY_INTEGER );
-
-   const_user_default_dir CONSTANT VARCHAR2(30) := 'USER_TEXT_FILE_DIR';
-   const_binary_file_type CONSTANT file_type := 1;
-   const_text_file_type CONSTANT file_type := 2;
-
-
-
-
+create or replace PACKAGE pk_crypto AUTHID definer AS
+   /*========================================================================*/
+   SUBTYPE sub_t_key IS VARCHAR2(256);
+   SUBTYPE sub_t_varchar_data IS VARCHAR2(1000);
+   SUBTYPE sub_t_raw_data IS RAW(2000);
+   /*========================================================================*/
+   const_encryption_type CONSTANT PLS_INTEGER := dbms_crypto.encrypt_aes256 + dbms_crypto.chain_cbc + dbms_crypto.pad_pkcs5;
+   const_encryption_nls_charset CONSTANT VARCHAR2(8) := 'AL32UTF8';
+   /*========================================================================*/
    /**
-   *Calulates a hash value
    *
-   *@param p_dir_name Directory name
-   *@param p_file_name File Name
-   *@param p_hash_type Type of algorithm to be used
-   *@param p_file_type Type of file
+   *
+   * @return          parameter value
    */
-   FUNCTION calculate_hash (
-      p_dir_name    IN VARCHAR2 DEFAULT const_user_default_dir,
-      p_file_name   IN VARCHAR2,
-      p_hash_type   IN PLS_INTEGER DEFAULT dbms_crypto.hash_md5,
-      p_file_type   IN file_type DEFAULT const_text_file_type
-   ) RETURN varchar2_hash;
+   FUNCTION encrypt (
+      p_original_text IN sub_t_varchar_data
+   ) RETURN to_encrypted_raw_data;
+   /*========================================================================*/
    /**
-   *Calulates a hash value
    *
-   *@param p_file_data LOB data
-   *@param p_hash_type Type of algorithm to be used
-   */
-   FUNCTION calculate_hash (
-      p_file_data   IN CLOB,
-      p_hash_type   IN PLS_INTEGER DEFAULT dbms_crypto.hash_md5
-   ) RETURN varchar2_hash;
-   /**
-   *Calulates a hash value
    *
-   *@param p_file_data LOB data
-   *@param p_hash_type Type of algorithm to be used
    */
-   FUNCTION calculate_hash (
-      p_file_data   IN BLOB,
-      p_hash_type   IN PLS_INTEGER DEFAULT dbms_crypto.hash_md5
-   ) RETURN varchar2_hash;
-
-
+   FUNCTION decrypt (
+      p_encrypted_data IN to_encrypted_raw_data
+   ) RETURN sub_t_varchar_data;
+   /*========================================================================*/
 END pk_crypto;
