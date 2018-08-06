@@ -3,7 +3,7 @@ DECLARE
    p_file_name   VARCHAR2(200);
    v_return      VARCHAR2(1024);
 BEGIN
-   p_dir_name := pk_hash.const_user_default_dir; 
+   p_dir_name := pk_file.const_user_default_text_dir; 
    /*----------------------------------------------------------------*/
    p_file_name := 'install.exe';
    v_return := pk_hash.calculate_hash(
