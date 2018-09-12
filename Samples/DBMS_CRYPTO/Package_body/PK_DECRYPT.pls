@@ -37,7 +37,14 @@ create or replace PACKAGE BODY pk_decrypt AS
       v_key         := pk_secret_pass.get_pass(p_encrypted_data.reference_date);
       v_iv_raw      := pk_secret_pass.get_iv(p_encrypted_data.iv_id);
 
-      v_blob_data   := dbms_crypto.decrypt(
+    dbms_lob.createtemporary(
+         v_blob_data,
+         true,
+         dbms_lob.call
+      );
+
+      dbms_crypto.decrypt(
+         dst   => v_blob_data,
          src   => p_encrypted_data.encrypted_data,
          typ   => pk_encrypt.const_encryption_type,
          key   => v_key,
